@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchAllBlogs, createNewBlog } from "../controllers/blogController";
+import { fetchAllBlogs, createNewBlog, hitLikeOrDislikeBlog } from "../controllers/blogController";
 
 const blogRouter = Router();
 
@@ -7,6 +7,9 @@ const blogRouter = Router();
 blogRouter.get("/getBlogs", fetchAllBlogs);
 
 // Define the route for creating a new blog
-blogRouter.post("/postBlog", createNewBlog);
+blogRouter.post("/createBlog", createNewBlog);
+
+// Define the route for liking or disliking a blog
+blogRouter.post("/hitLikeOrDislike/:blogId", hitLikeOrDislikeBlog);
 
 export default blogRouter;
