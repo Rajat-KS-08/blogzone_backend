@@ -23,7 +23,7 @@ app.use('/api/blogs', blogRouter);
 app.use("/api/auth", authRouter);
 
 //Server configuration
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 //Running the server
 app.listen(PORT, () => {
