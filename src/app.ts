@@ -8,18 +8,32 @@ import cookieParser from "cookie-parser";
 import blogRouter from "./routes/blogRoutes";
 import authRouter from "./routes/authRoutes";
 
-
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Set up CORS to allow requests from the frontend
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}))
-app.use('/api/blogs', blogRouter);
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://blogzone-frontend-2sac.onrender.com", // deployed frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
+app.use("/api/blogs", blogRouter);
 app.use("/api/auth", authRouter);
 
 //Server configuration
